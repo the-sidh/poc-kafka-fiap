@@ -1,0 +1,24 @@
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    active: cloudkarafka
+server:
+  port: 8088
+---
+spring:
+  profiles: cloudkarafka
+  kafka:
+    properties:
+      security.protocol: SASL_SSL
+      sasl.mechanism: SCRAM-SHA-256
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="ch7y7yv7" password="zKfG5wi0ckwncBuxeTVulbhv7Y4fciLO";
+    template:
+      default-topic: ch7y7yv7-events
+    producer:
+      bootstrap-servers: dory-01.srvs.cloudkafka.com:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    admin:
+      properties:
+        bootstrap.servers: dory-01.srvs.cloudkafka.com:9094
