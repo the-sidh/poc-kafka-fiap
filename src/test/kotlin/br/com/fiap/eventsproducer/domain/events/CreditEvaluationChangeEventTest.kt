@@ -10,7 +10,7 @@ class CreditEvaluationChangeEventTest (){
     fun `given a credit evaluation when creating a credit evaluation event should return an object that represents a credit evaluation change event`(){
         val creditEvaluation = creditEvaluationSample()
         val event = CreditEvaluationChangeEvent.create(creditEvaluation)
-        Assertions.assertEquals(creditEvaluation.customerId,event.creditEvaluation?.customerId)
-        Assertions.assertEquals(creditEvaluation.totalCredit,event.creditEvaluation?.totalCredit)
+        Assertions.assertEquals(creditEvaluation.customerId, event.creditEvaluation.customerId)
+        Assertions.assertEquals(creditEvaluation.totalCredit, event.creditEvaluation.totalCredit)
     }
 }

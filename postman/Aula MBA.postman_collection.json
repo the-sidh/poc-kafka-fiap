@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "2f164ac7-5016-4e2f-a9e8-3f29b2c98530",
+		"name": "Aula MBA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Credit Evaluation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerId\": \"SidSid\",\n    \"totalCredit\": 1000.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8088/credit/evaluation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"credit",
+						"evaluation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

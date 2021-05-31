@@ -1,5 +1,6 @@
 package br.com.fiap.eventsproducer.application.rest.controllers
 
+import br.com.fiap.eventsproducer.application.rest.dto.CreditEvaluationDTO
 import br.com.fiap.eventsproducer.application.rest.dto.creditEvaluationDTOSampler
 import br.com.fiap.eventsproducer.domain.entities.creditEvaluationSample
 import br.com.fiap.eventsproducer.domain.events.CreditEvaluationChangeEvent
@@ -29,9 +30,10 @@ class CreateCreditEvaluationControllerTest {
         val controller = CreateCreditEvaluationController(producer)
         every { producer.send(any()) } just Runs
         val creditEvaluation = creditEvaluationDTOSampler()
+        val domainObject = CreditEvaluationDTO.toDomainObjet(creditEvaluation)
         val response = controller.createCreditEvaluation(creditEvaluation)
         Assertions.assertEquals(HttpStatus.CREATED, response.statusCode)
-        Assertions.assertEquals(creditEvaluation, response.body?.creditEvaluation)
+        Assertions.assertEquals(domainObject, response.body?.creditEvaluation)
     }
 
     @Test
