@@ -7,12 +7,17 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.header.Header
 import org.apache.kafka.common.header.internals.RecordHeader
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
 @Qualifier("kafkaProducer")
-class KafkaEventProducer(val objectMapper: ObjectMapper, val template: KafkaTemplate<String, String>) : CreditEvaluationEventProducer {
+class KafkaEventProducer(
+    val objectMapper: ObjectMapper,
+    val template: KafkaTemplate<String, String>,
+    @Value("\${spring.kafka.template.default-topic}") val topic: String
+) : CreditEvaluationEventProducer {
 
     override fun send(event: CreditEvaluationChangeEvent) {
         val producerRecord = getProducerRecord(event)
@@ -21,13 +26,15 @@ class KafkaEventProducer(val objectMapper: ObjectMapper, val template: KafkaTemp
 
     private fun getProducerRecord(event: CreditEvaluationChangeEvent): ProducerRecord<String, String> {
         val serializedEvent = objectMapper.writeValueAsString(event)
-        val eventTypeHeader = RecordHeader("eventType", objectMapper.writeValueAsBytes(CreditEvaluationChangeEvent::class.simpleName!!))
+        val eventTypeHeader =
+            RecordHeader("eventType", objectMapper.writeValueAsBytes(CreditEvaluationChangeEvent::class.simpleName!!))
         val headers = listOf<Header>(eventTypeHeader)
         return ProducerRecord(
-            "ch7y7yv7-events",
+            topic,
             0,
             event.eventId,
             serializedEvent,
-            headers)
+            headers
+        )
     }
 }
